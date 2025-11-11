@@ -1,6 +1,6 @@
 <?php
-$stmt = $mysqli->query("SELECT * FROM product");
-$products = $stmt->fetch_all(MYSQLI_ASSOC);
+$stmt = $dbh->query("SELECT * FROM product");
+$products = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
 <section class="catalog" id="catalog">

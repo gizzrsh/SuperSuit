@@ -4,13 +4,15 @@
 <?php
 
 $id = $_GET['id'];
-$product_result = $mysqli->prepare("SELECT * FROM product WHERE id = ?");
-$product_result->bind_param("i", $id);
+$product_result = $dbh->prepare("SELECT * FROM product WHERE id = :id");
+$product_result->bindParam(':id', $id);
 $product_result->execute();
-$product = $product_result->get_result()->fetch_assoc();
+$product = $product_result->fetch(PDO::FETCH_ASSOC);
 
-$images_result = $mysqli->query("SELECT * FROM product_images WHERE product_id = {$product['id']} ORDER BY sort_order");
-$images = $images_result->fetch_all(MYSQLI_ASSOC);
+$images_result = $dbh->prepare("SELECT * FROM product_images WHERE product_id = :product_id ORDER BY sort_order");
+$images_result->bindParam(':product_id', $product['id']);
+$images_result->execute();
+$images = $images_result->fetchAll();
 
 ?>
 
@@ -21,7 +23,7 @@ $images = $images_result->fetch_all(MYSQLI_ASSOC);
     <section class="product">
         <div class="product__breadcrumbs breadcrumbs">
             <ul class="breadcrumbs__list">
-                <li class="breadcrumbs__item"><a href="/" class="breadcrumbs__link">Главная</a></li>
+                <li class="breadcrumbs__item"><a href="index.php" class="breadcrumbs__link">Главная</a></li>
                 <span>/</span>
                 <li class="breadcrumbs__item"><a href="product.php?id=<?= $product['id'] ?>" class="breadcrumbs__link" ><?= $product['name'] ?></a></li>
             </ul>
@@ -72,7 +74,7 @@ $images = $images_result->fetch_all(MYSQLI_ASSOC);
                     <div class="swiper-wrapper">
                         <?php foreach ($images as $image): ?>
                         <div class="swiper-slide">
-                            <img src="images/<?= $image['image_url'] ?>" alt="<?= $product['name'] ?>">
+                            <img src="images/<?= $image[2] ?>" alt="<?= $product['name'] ?>">
                         </div>
                         <?php endforeach; ?>
                     </div>
@@ -81,7 +83,7 @@ $images = $images_result->fetch_all(MYSQLI_ASSOC);
                     <div class="swiper-wrapper">
                         <?php foreach ($images as $image): ?>
                         <div class="swiper-slide"> 
-                            <img src="images/<?= $image['image_url'] ?>" alt="<?= $product['name'] ?>">
+                            <img src="images/<?= $image[2] ?>" alt="<?= $product['name'] ?>">
                         </div>
                         <?php endforeach; ?>
                     </div>

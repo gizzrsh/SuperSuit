@@ -1,5 +1,11 @@
 <?php 
 
-$mysqli = new mysqli("localhost", "root", "", "supersuit");
+$user = 'root';
+$pass = '';
 
-$mysqli->set_charset("utf8mb4");
+try {
+    $dbh = new PDO('mysql:host=localhost;dbname=supersuit;charset=utf8mb4', $user, $pass);
+
+} catch (PDOException $e) {
+
+}

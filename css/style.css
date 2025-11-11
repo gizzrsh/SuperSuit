@@ -116,6 +116,8 @@ body {
 .hero__link {
     font-size: 18px;
     font-weight: 700;
+    scroll-behavior: smooth;
+
 }
 .hero__image img {
     width: 100%;
