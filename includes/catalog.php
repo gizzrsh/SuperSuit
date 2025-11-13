@@ -1,6 +1,6 @@
 <?php
-$stmt = $dbh->query("SELECT * FROM product");
-$products = $stmt->fetchAll(PDO::FETCH_ASSOC);
+$products_result = $pdo->query("SELECT * FROM product WHERE is_active = 1 ORDER BY created_at DESC");
+$products = $products_result->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
 <section class="catalog" id="catalog">

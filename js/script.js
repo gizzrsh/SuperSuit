@@ -32,9 +32,9 @@ const swiper2 = new Swiper(".mySwiper2", {
   slidesPerView: 1,
   slidesPerGroup: 1,
   spaceBetween: 10,
-  loop: true,
+  loop: false,
   centeredSlides: true,
-  speed: 300,
+  speed: 0,
   navigation: {
     nextEl: ".swiper-button-next",
     prevEl: ".swiper-button-prev",

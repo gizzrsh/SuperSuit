@@ -4,12 +4,12 @@
 <?php
 
 $id = $_GET['id'];
-$product_result = $dbh->prepare("SELECT * FROM product WHERE id = :id");
+$product_result = $pdo->prepare("SELECT * FROM product WHERE id = :id");
 $product_result->bindParam(':id', $id);
 $product_result->execute();
 $product = $product_result->fetch(PDO::FETCH_ASSOC);
 
-$images_result = $dbh->prepare("SELECT * FROM product_images WHERE product_id = :product_id ORDER BY sort_order");
+$images_result = $pdo->prepare("SELECT * FROM product_images WHERE product_id = :product_id ORDER BY sort_order");
 $images_result->bindParam(':product_id', $product['id']);
 $images_result->execute();
 $images = $images_result->fetchAll();
