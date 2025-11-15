@@ -3,7 +3,8 @@
 
 <?php
 
-$id = $_GET['id'];
+$id = filter_var($_GET['id'], FILTER_VALIDATE_INT);
+
 $product_result = $pdo->prepare("SELECT * FROM product WHERE id = :id");
 $product_result->bindParam(':id', $id);
 $product_result->execute();

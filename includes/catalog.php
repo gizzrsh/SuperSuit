@@ -11,10 +11,10 @@ $products = $products_result->fetchAll(PDO::FETCH_ASSOC);
                 <li class="catalog__product">
                     <img src="images/<?= $product['image_url']; ?>" alt="<?php $product['image_url'] ?>" class="catalog__product-image">
                     <h4 class="catalog__product-name"><?= $product['name']; ?></h4>
-                    <p class="catalog__product-size">Размер: <?= $product['size']; ?></p>
+                    <p  class="catalog__product-size">Размер: <?= $product['size']; ?></p>
                     <h5 class="catalog__product-price"><?= $product['price']; ?>₽/день.</h5>
-                    <a href="product.php?id=<?= $product['id'] ?>" class="catalog__product-link btn">Быстрый просмотр</a>
-                    <p class="catalog__product-stock"><?= $product['availability'] == 0 ? "<p style='color:red;'>Нет в наличии</p>" : "В наличии: ".$product['availability'] ?></p>
+                    <a  class="catalog__product-link btn" href="product.php?id=<?= htmlspecialchars($product['id']); ?>">Быстрый просмотр</a>
+                    <p  class="catalog__product-stock"><?= $product['availability'] == 0 ? "<p style='color:red;'>Нет в наличии</p>" : "В наличии: ".$product['availability'] ?></p>
                 </li>
             <?php endforeach; ?>
         </ul>

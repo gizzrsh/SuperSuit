@@ -12,15 +12,15 @@
 <body>
     <header class="header">
         <div class="container header__container">
-            <a href="index.php" class="header__logo">Super<span>Suit</span></a>
+            <a href="index.php" class="header__logo">SuperSuit</a>
 
             <nav class="header__menu">
                 <ul class="header__list">
                     <li class="header__item">
-                        <a href="product.php" class="header__link">Добавить товар</a>
+                        <a href="../index.php" class="header__link">Main Page |</a>
                     </li>
                     <li class="header__item">
-                        <a href="../index.php" class="header__link">Главная страница сайта</a>
+                        <a href="product.php" class="header__link">Add product card</a>
                     </li>
                 </ul>
             </nav>

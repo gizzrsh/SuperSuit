@@ -49,7 +49,7 @@ body {
 
 /* header */
 .header {
-    background-color: #fff;
+    background: #041A3F;
     padding: 10px 0px;
 }
 .header__container {
@@ -63,13 +63,6 @@ body {
     font-size: 32px;
     text-decoration: none;
 }
-.header__logo span {
-    color: #041A3F;
-}
-.header__phone {
-    color: #041A3F;
-    text-decoration: none;
-}
 .header__list {
     display: flex;
     gap: 15px;
@@ -78,7 +71,7 @@ body {
     list-style: none;
 }
 .header__link {
-    color: #000;
+    color: #FFCA33;
     font-size: 16px;
     text-decoration: none;
     transition: all .2s;
@@ -95,6 +88,43 @@ body {
 /* dashboards */
 .dashboards {
     padding: 30px 0px;
+}
+.dashboards__title {
+    color: #041A3F;
+}
+.dashboards__list {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+
+    margin-top: 30px;
+}
+.dashboards__item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 24px;
+}
+.dashboards__item-image {
+    width: 100%;
+    height: 100%;
+    max-width: 330px;
+    max-height: 330px;
+    object-fit: contain;
+    border-radius: 30px;
+}
+.dashboards__item-text {
+    width: 300px;
+}
+.dashboards__item-info {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+.dashboards__item-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
 }
 
 /* product */
@@ -130,7 +160,7 @@ body {
     max-width: 450px;
     border: none;
     border-radius: 9px;
-    box-shadow: 0px 1px 3px black;    
+    box-shadow: 0px 1px 3px #000000;    
     padding: 9px;
 }
 .product__form-btn {
@@ -140,27 +170,18 @@ body {
 
 /* footer */
 .footer {
-    color: white;
-    background: #fff;
+    background: #041A3F;
     flex-shrink: 0;
     text-align: center;
     padding: 32px 0px;
 }
 .footer__container {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    font-size: 24px;
+    display: flex;  
+    justify-content: center;
+    font-size: 32px;
     font-weight: 700;
 }
 .footer__logo {
     text-decoration: none;
     color: #FFCA33;
-}
-.footer__logo span {
-    color: #041A3F;
-}
-.footer__phone {
-    color: #041A3F;
-    text-decoration: none;
 }

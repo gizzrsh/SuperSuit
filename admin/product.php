@@ -1,8 +1,15 @@
 <?php include('../includes/database.php') ?>
 
-<?php include('./includes/header.php') ?>
-
 <?php
+
+$id = isset($_GET['id']) ? filter_var($_GET['id'], FILTER_VALIDATE_INT): false;
+
+if ($id) {
+    $productResult = $pdo->prepare("SELECT * FROM product WHERE id = :id");
+    $productResult->bindParam(':id', $id);
+    $productResult->execute();
+    $product = $productResult->fetch();
+}
 
 $name         = $_POST['name'] ?? '';
 $description  = $_POST['description'] ?? '';
@@ -30,7 +37,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $errors[] = "Товаров не может быть меньше 0";
     }
 
-
     if (!empty($_FILES['image_url']['name'][0])) {
         $savedFiles = [];
     }
@@ -50,47 +56,54 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 
-    try {
-        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    if (isset($_POST['add'])) {
+        try {
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-        $pdo->beginTransaction();
+            $pdo->beginTransaction();
 
-        $stmt = $pdo->prepare("INSERT INTO `product`(`name`, `description`, `price`, `equipment`, `size`, `availability`, `is_active`) 
-        VALUES (?, ?, ?, ?, ?, ?, ?)");
-        $stmt->execute([$name, $description, $price, $equipment, $size, $availability, $is_active]);
+            $stmt = $pdo->prepare("INSERT INTO `product` (`name`, `description`, `price`, `equipment`, `size`, `availability`, `is_active`) 
+            VALUES (?, ?, ?, ?, ?, ?, ?)");
+            $stmt->execute([$name, $description, $price, $equipment, $size, $availability, $is_active]);
 
-        $productId = $pdo->lastInsertId();
+            $productId = $pdo->lastInsertId();
 
-        $imageStmt = $pdo->prepare("INSERT INTO `product_images` (`product_id`, `image_url`, `sort_order`, `is_main`)
-        VALUES (?, ?, ?, ?)");
+            $imageStmt = $pdo->prepare("INSERT INTO `product_images` (`product_id`, `image_url`, `sort_order`, `is_main`)
+            VALUES (?, ?, ?, ?)");
 
-        foreach ($savedFiles as $index => $image) {
-            $imageStmt->execute([
-                $productId,
-                $image,
-                $index,
-                0
-            ]);
+            foreach ($savedFiles as $index => $image) {
+                $imageStmt->execute([
+                    $productId,
+                    $image,
+                    $index,
+                    0
+                ]);
+            }
+
+            $pdo->commit();
+            header("Location: ../product.php?id=" . $productId);
+            exit;
+
+        } catch (Exception $e) {
+            $pdo->inTransaction();
+            $pdo->rollBack();
+            echo "Ошибка: " . $e->getMessage();
         }
-
-        $pdo->commit();
-        header("Location: ../product.php?id=" . $productId);
-        exit;
-
-    } catch (Exception $e) {
-        $pdo->inTransaction();
-        $pdo->rollBack();
-        echo "Ошибка: " . $e->getMessage();
     }
 
-    // 1) Принять данные из формы
-    // 2) Сделать валидацию данных
-    // 3) Добавить изображения в каталог сервера
-    // 3) Добавить данные в базу данных
+    if (isset($_POST['save'])) {
+        $updateStmt = $pdo->prepare("UPDATE `product` 
+        SET `name` = ?, `description` = ?, `price` = ?, `equipment` = ?, `size` = ? , `availability` = ?, `is_active` = ? WHERE id = ?");
+        $updateStmt->execute([$name, $description, $price, $equipment, $size, $availability, $is_active, $id]);
+        
+        header("Location: ../product.php?id=" . $id);
+        exit;
+    }
 
 }
-
 ?>
+
+<?php include('./includes/header.php') ?>
 
 <section class="product">
     <div class="product__container container">
@@ -101,27 +114,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <ul class="product__form-list">
                     <li class="product__form-item">
                         <label for="name">Название костюма:</label>
-                        <input type="text" id="name" name="name">
+                        <input type="text" id="name" name="name" value="<?= $product['name'] ?? '' ?>">
                     </li>
                     <li class="product__form-item">
                         <label for="description">Описание костюма:</label>
-                        <input type="text" id="description" name="description">
+                        <input type="text" id="description" name="description" value="<?= $product['description'] ?? '' ?>">
                     </li>
                     <li class="product__form-item">
                         <label for="price">Стоимость костюма (в рублях):</label>
-                        <input type="number" id="price" name="price">
+                        <input type="number" id="price" name="price" value="<?= $product['price'] ?? '' ?>">
                     </li>
                     <li class="product__form-item">
                         <label for="equipment">Комплектация костюма:</label>
-                        <input type="text" id="equipment" name="equipment">
+                        <input type="text" id="equipment" name="equipment" value="<?= $product['equipment'] ?? '' ?>">
                     </li>
                     <li class="product__form-item">
                         <label for="size">Размер костюма:</label>
-                        <input type="number" id="size" name="size">
+                        <input type="number" id="size" name="size" value="<?= $product['size'] ?? '' ?>">
                     </li>
                     <li class="product__form-item">
                         <label for="availability">Количество костюмов в наличии (штук.):</label>
-                        <input type="number" id="availability" name="availability">
+                        <input type="number" id="availability" name="availability" value="<?= $product['availability'] ?? '' ?>">
                     </li>
                     <li class="product__form-item">
                         <label for="image_url">Изображение костюма (можно выбрать несколько):</label>
@@ -136,8 +149,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     </li>
                 </ul>
 
-                <button type="submit" class="product__form-btn btn">Добавить костюм</button>
-
+                <?php if ($id): ?>
+                    <button type="submit" class="product__form-btn btn" name="save">Сохранить</button>
+                <?php elseif(!$id): ?>
+                    <button type="submit" class="product__form-btn btn" name="add">Добавить костюм</button>
+                <?php endif; ?>
             </fieldset>
         </form>
     </div>
