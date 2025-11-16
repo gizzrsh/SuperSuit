@@ -18,7 +18,7 @@ body {
     flex-direction: column;
     min-height: 100vh;
 
-    background: center / contain url('../images/body-bg.svg'), #EFF5FF;
+    background: center / contain url('../../images/body-bg.svg'), #EFF5FF;
     font-family: "Montserrat Alternates", sans-serif;
 }
 
@@ -103,7 +103,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    font-size: 24px;
+    font-size: 22px;
 }
 .dashboards__item-image {
     width: 100%;
@@ -151,16 +151,24 @@ body {
     display: flex;
     flex-direction: column;
     gap: 3px;
+    width: 600px;
 }
 .product__form-item label {
     font-size: 16px;
 }
 .product__form-item input {
     width: 100%;
-    max-width: 450px;
+    height: 100%;
     border: none;
     border-radius: 9px;
     box-shadow: 0px 1px 3px #000000;    
+    padding: 9px;
+}
+.product__form-item textarea {
+    width: 100%;
+    height: 100%;
+    max-width: 600px;
+    min-height: 150px;
     padding: 9px;
 }
 .product__form-btn {

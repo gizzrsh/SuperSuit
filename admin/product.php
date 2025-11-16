@@ -109,7 +109,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <div class="product__container container">
         <form action="" method="post" enctype="multipart/form-data" class="product__form">
             <fieldset>
-                <legend>Добавление карточки товара</legend>
+                <?php if (!$id): ?>
+                    <legend>Добавление карточки товара</legend>
+                <?php else: ?>
+                    <legend>Редактирование карточки товара</legend>
+                <?php endif; ?>
 
                 <ul class="product__form-list">
                     <li class="product__form-item">
@@ -118,7 +122,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     </li>
                     <li class="product__form-item">
                         <label for="description">Описание костюма:</label>
-                        <input type="text" id="description" name="description" value="<?= $product['description'] ?? '' ?>">
+                        <textarea name="description" id="description"><?= $product['description'] ?? '' ?></textarea>
                     </li>
                     <li class="product__form-item">
                         <label for="price">Стоимость костюма (в рублях):</label>
@@ -141,10 +145,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <input type="file" id="image_url" name="image_url[]" accept="image/*" multiple>
                     </li>
                     <li class="product__form-item">
-                        <label for="is_active">Активен ли товар</label>
+                        <label for="is_active">Активен ли товар (по умолчанию: Да)</label>
                         <select id="is_active" name="is_active">
-                            <option value="1">Да</option>
-                            <option value="0">Нет</option>
+                            <?php if (!$id): ?>
+                                <option value="1">Да</option>
+                                <option value="0">Нет</option>
+                            <?php elseif ($id): ?>
+                                <?php if ($product['is_active'] === 1): ?>
+                                    <option value="1" selected>Да</option>
+                                    <option value="0">Нет</option>
+                                <?php elseif ($product['is_active'] === 0): ?>
+                                    <option value="1">Да</option>
+                                    <option value="0" selected>Нет</option>
+                                <?php endif; ?>
+                            <?php endif; ?>
                         </select>
                     </li>
                 </ul>

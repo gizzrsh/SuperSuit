@@ -1,5 +1,5 @@
 <?php
-$products_result = $pdo->query("SELECT * FROM product WHERE is_active = 1 ORDER BY created_at DESC");
+$products_result = $pdo->query("SELECT * FROM product WHERE is_active = 1 AND ORDER BY created_at DESC");
 $products = $products_result->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
