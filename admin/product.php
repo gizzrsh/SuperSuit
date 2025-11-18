@@ -1,27 +1,30 @@
-<?php include('../includes/database.php') ?>
+<?php require_once('../includes/database.php') ?>
 
 <?php
-
-$id = isset($_GET['id']) ? filter_var($_GET['id'], FILTER_VALIDATE_INT): false;
+$id = isset($_GET['id']) ? filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT): false;
 
 if ($id) {
     $productResult = $pdo->prepare("SELECT * FROM product WHERE id = :id");
-    $productResult->bindParam(':id', $id);
-    $productResult->execute();
+    $productResult->execute(['id' => $id]);
     $product = $productResult->fetch();
+
+    $imagesResult = $pdo->prepare("SELECT * FROM product_images WHERE product_id = :id");
+    $imagesResult->bindParam('id', $id);
+    $imagesResult->execute();
+    $images = $imagesResult->fetchAll();
 }
 
-$name         = $_POST['name'] ?? '';
-$description  = $_POST['description'] ?? '';
-$price        = $_POST['price'] ?? 0;
-$equipment    = $_POST['equipment'] ?? '';
-$size         = $_POST['size'] ?? 0;
-$availability = $_POST['availability'] ?? 0;
-$is_active    = $_POST['is_active'] ?? 0;
+$name         = $_POST['name'] ?? $product['name'] ?? '';
+$description  = $_POST['description'] ?? $product['description'] ?? '';
+$price        = $_POST['price'] ?? $product['price'] ?? 0;
+$equipment    = $_POST['equipment'] ?? $product['equipment'] ?? '';
+$size         = $_POST['size'] ?? $product['size'] ?? 0;
+$availability = $_POST['availability'] ?? $product['availability'] ?? 0;
+$is_active    = $_POST['is_active'] ?? $product['is_active'] ?? 0;
 
 $errors         = [];
 $uploadedImages = [];
-$uploadDir = '../images/';
+$uploadDir      = '../images/';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
@@ -62,9 +65,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             $pdo->beginTransaction();
 
-            $stmt = $pdo->prepare("INSERT INTO `product` (`name`, `description`, `price`, `equipment`, `size`, `availability`, `is_active`) 
-            VALUES (?, ?, ?, ?, ?, ?, ?)");
-            $stmt->execute([$name, $description, $price, $equipment, $size, $availability, $is_active]);
+            $stmt = $pdo->prepare("INSERT INTO `product` (`name`, `description`, `price`, `equipment`, `size`, `availability`, `image_url`, `is_active`) 
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+            $stmt->execute([$name, $description, $price, $equipment, $size, $availability, $savedFiles['0'], $is_active]);
 
             $productId = $pdo->lastInsertId();
 
@@ -109,41 +112,46 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <div class="product__container container">
         <form action="" method="post" enctype="multipart/form-data" class="product__form">
             <fieldset>
-                <?php if (!$id): ?>
-                    <legend>Добавление карточки товара</legend>
-                <?php else: ?>
-                    <legend>Редактирование карточки товара</legend>
-                <?php endif; ?>
+                <legend><?= $id ? "Редактирование" : "Добавление" ?> карточки товара</legend>
 
                 <ul class="product__form-list">
                     <li class="product__form-item">
                         <label for="name">Название костюма:</label>
-                        <input type="text" id="name" name="name" value="<?= $product['name'] ?? '' ?>">
+                        <input type="text" id="name" name="name" value="<?= isset($product['name']) ? htmlspecialchars($product['name'], ENT_QUOTES, 'UTF-8') : ''; ?>">
                     </li>
                     <li class="product__form-item">
                         <label for="description">Описание костюма:</label>
-                        <textarea name="description" id="description"><?= $product['description'] ?? '' ?></textarea>
+                        <textarea name="description" id="description"><?= isset($product['description']) ? htmlspecialchars($product['description'], ENT_QUOTES, 'UTF-8') : ''; ?></textarea>
                     </li>
                     <li class="product__form-item">
                         <label for="price">Стоимость костюма (в рублях):</label>
-                        <input type="number" id="price" name="price" value="<?= $product['price'] ?? '' ?>">
+                        <input type="number" id="price" name="price" value="<?= isset($product['price']) ? htmlspecialchars($product['price'], ENT_QUOTES, 'UTF-8') : 0; ?>">
                     </li>
                     <li class="product__form-item">
                         <label for="equipment">Комплектация костюма:</label>
-                        <input type="text" id="equipment" name="equipment" value="<?= $product['equipment'] ?? '' ?>">
+                        <input type="text" id="equipment" name="equipment" value="<?= isset($product['equipment']) ? htmlspecialchars($product['equipment'], ENT_QUOTES, 'UTF-8') : ''; ?>">
                     </li>
                     <li class="product__form-item">
                         <label for="size">Размер костюма:</label>
-                        <input type="number" id="size" name="size" value="<?= $product['size'] ?? '' ?>">
+                        <input type="number" id="size" name="size" value="<?= isset($product['size']) ? htmlspecialchars($product['size'], ENT_QUOTES, 'UTF-8') : 44; ?>">
                     </li>
                     <li class="product__form-item">
                         <label for="availability">Количество костюмов в наличии (штук.):</label>
-                        <input type="number" id="availability" name="availability" value="<?= $product['availability'] ?? '' ?>">
+                        <input type="number" id="availability" name="availability" value="<?= isset($product['availability']) ? htmlspecialchars($product['availability'], ENT_QUOTES, 'UTF-8') : 0; ?>">
                     </li>
                     <li class="product__form-item">
                         <label for="image_url">Изображение костюма (можно выбрать несколько):</label>
                         <input type="file" id="image_url" name="image_url[]" accept="image/*" multiple>
                     </li>
+                    <?php if ($id): ?>
+                    <li class="product__form-item">
+                        <div class="product__form-images">
+                            <?php foreach ($images as $image): ?>
+                                <img src="<?= $uploadDir . $image['image_url'] ?>" alt="<?= htmlspecialchars($product['name'], ENT_QUOTES, 'UTF-8'); ?>" width="150" loading="lazy">
+                            <?php endforeach; ?>
+                        </div>
+                    </li>
+                    <?php endif; ?>
                     <li class="product__form-item">
                         <label for="is_active">Активен ли товар (по умолчанию: Да)</label>
                         <select id="is_active" name="is_active">
@@ -151,13 +159,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 <option value="1">Да</option>
                                 <option value="0">Нет</option>
                             <?php elseif ($id): ?>
-                                <?php if ($product['is_active'] === 1): ?>
-                                    <option value="1" selected>Да</option>
-                                    <option value="0">Нет</option>
-                                <?php elseif ($product['is_active'] === 0): ?>
-                                    <option value="1">Да</option>
-                                    <option value="0" selected>Нет</option>
-                                <?php endif; ?>
+                                <option value="1" <?= ($product['is_active'] === 1) ? 'selected' : '' ?>>Да</option>
+                                <option value="0" <?= ($product['is_active'] === 0) ? 'selected' : '' ?>>Нет</option>
                             <?php endif; ?>
                         </select>
                     </li>

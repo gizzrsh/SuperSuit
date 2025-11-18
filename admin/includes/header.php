@@ -17,10 +17,11 @@
             <nav class="header__menu">
                 <ul class="header__list">
                     <li class="header__item">
-                        <a href="../index.php" class="header__link">Main Page |</a>
+                        <a href="../index.php" class="header__link">Основная страница</a>
                     </li>
+                    <span style="color: #FFCA33">/</span>
                     <li class="header__item">
-                        <a href="product.php" class="header__link">Add product card</a>
+                        <a href="product.php" class="header__link">Добавить товар</a>
                     </li>
                 </ul>
             </nav>

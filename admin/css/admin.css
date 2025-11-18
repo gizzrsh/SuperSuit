@@ -21,6 +21,9 @@ body {
     background: center / contain url('../../images/body-bg.svg'), #EFF5FF;
     font-family: "Montserrat Alternates", sans-serif;
 }
+button {
+    border: none;
+}
 
 .container {
     max-width: 1200px;
@@ -74,11 +77,10 @@ body {
     color: #FFCA33;
     font-size: 16px;
     text-decoration: none;
-    transition: all .2s;
+    transition: color 0.2s;
 }
 .header__link:hover {
-    color: #000;
-    opacity: 0.7;
+    color: #f9f9f9;
 }
 
 .main {
@@ -103,28 +105,36 @@ body {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    font-size: 22px;
+    font-size: 20px;
 }
 .dashboards__item-image {
-    width: 100%;
-    height: 100%;
-    max-width: 330px;
-    max-height: 330px;
-    object-fit: contain;
+    width: 300px;
+    height: 450px;
     border-radius: 30px;
+    object-fit: cover;
 }
 .dashboards__item-text {
     width: 300px;
+}
+.dashboards__item-name { 
+    font-size: 24px;
 }
 .dashboards__item-info {
     display: flex;
     flex-direction: column;
     gap: 15px;
+
+    font-size: 16px;
 }
 .dashboards__item-actions {
     display: flex;
     flex-direction: column;
     gap: 15px;
+}
+.dashboards__item-btn {
+    width: 210px;
+    height: 50px;
+    font-size: 18px;
 }
 
 /* product */

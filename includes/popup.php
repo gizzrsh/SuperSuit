@@ -1,10 +1,6 @@
-<?php
-
-?>
-
 <div class="product__popup popup" id="popup">
     <form action="popup.php" method="post" class="popup__form">
-        <h4 class="popup__title">Аренда костюма “<?= $product['name'] ?>”</h4>
+        <h4 class="popup__title">Аренда костюма “<?= htmlspecialchars($product['name'], ENT_QUOTES, 'UTF-8') ?>”</h4>
         <p class="popup__subtitle">Пожалуйста, укажите ваши контактные данные, <br> чтобы мы забронировали костюм на ваше имя</p>
 
         <input type="text" class="popup__input" name="name" placeholder="Как вас зовут?" required>
