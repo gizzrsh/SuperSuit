@@ -1,16 +1,17 @@
-<?php require_once('../includes/database.php') ?>
+<?php require_once('../config/database.php') ?>
+<?php require_once('../includes/helpers.php') ?>
+
 
 <?php
 $id = isset($_GET['id']) ? filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT): false;
 
+$pdo = new Database();
+
 if ($id) {
-    $productResult = $pdo->prepare("SELECT * FROM product WHERE id = :id");
-    $productResult->execute(['id' => $id]);
+    $productResult = $pdo->query("SELECT * FROM product WHERE id = :id", ['id' => $id]);
     $product = $productResult->fetch();
 
-    $imagesResult = $pdo->prepare("SELECT * FROM product_images WHERE product_id = :id");
-    $imagesResult->bindParam('id', $id);
-    $imagesResult->execute();
+    $imagesResult = $pdo->query("SELECT * FROM product_images WHERE product_id = :id", ['id' => $id]);
     $images = $imagesResult->fetchAll();
 }
 
@@ -61,26 +62,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if (isset($_POST['add'])) {
         try {
-            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
             $pdo->beginTransaction();
+            
+            $sku = generateSku();
 
-            $stmt = $pdo->prepare("INSERT INTO `product` (`name`, `description`, `price`, `equipment`, `size`, `availability`, `image_url`, `is_active`) 
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
-            $stmt->execute([$name, $description, $price, $equipment, $size, $availability, $savedFiles['0'], $is_active]);
+            $stmt = $pdo->query("INSERT INTO `product` (`name`, `sku`, `description`, `price`, `equipment`, `size`, `availability`, `image_url`, `is_active`) 
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)", [$name, $sku, $description, $price, $equipment, $size, $availability, $savedFiles['0'], $is_active]);
 
             $productId = $pdo->lastInsertId();
-
-            $imageStmt = $pdo->prepare("INSERT INTO `product_images` (`product_id`, `image_url`, `sort_order`, `is_main`)
-            VALUES (?, ?, ?, ?)");
-
+            
             foreach ($savedFiles as $index => $image) {
-                $imageStmt->execute([
+                $params = [
                     $productId,
                     $image,
                     $index,
-                    0
-                ]);
+                    $index == 0 ? 1 : 0,
+                ];
+                $imageStmt = $pdo->query("INSERT INTO `product_images` (`product_id`, `image_url`, `sort_order`, `is_main`)
+                VALUES (?, ?, ?, ?)", $params);
             }
 
             $pdo->commit();
@@ -88,17 +88,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             exit;
 
         } catch (Exception $e) {
-            $pdo->inTransaction();
-            $pdo->rollBack();
+            if ($pdo->inTransaction()) {
+                $pdo->rollBack();
+            }
             echo "Ошибка: " . $e->getMessage();
         }
     }
 
     if (isset($_POST['save'])) {
-        $updateStmt = $pdo->prepare("UPDATE `product` 
-        SET `name` = ?, `description` = ?, `price` = ?, `equipment` = ?, `size` = ? , `availability` = ?, `is_active` = ? WHERE id = ?");
-        $updateStmt->execute([$name, $description, $price, $equipment, $size, $availability, $is_active, $id]);
-        
+        $updateStmt = $pdo->query("UPDATE `product` 
+        SET `name` = ?, `description` = ?, `price` = ?, `equipment` = ?, `size` = ? , `availability` = ?, `is_active` = ? WHERE id = ?", [$name, $description, $price, $equipment, $size, $availability, $is_active, $id]);
         header("Location: ../product.php?id=" . $id);
         exit;
     }

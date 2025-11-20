@@ -1,9 +1,10 @@
-<?php include('../includes/database.php') ?>
+<?php include('../config/database.php') ?>
 
 <?php
-$products_result = $pdo->prepare("SELECT * FROM product ORDER BY created_at DESC LIMIT 50 OFFSET 0;");
-$products_result->execute();
-$products = $products_result->fetchAll(PDO::FETCH_ASSOC);
+$pdo = new Database();
+
+$products_result = $pdo->query("SELECT * FROM product ORDER BY created_at DESC LIMIT 50 OFFSET 0;", []);
+$products = $products_result->fetchAll();
 ?>
 
 <?php include('./includes/header.php') ?>

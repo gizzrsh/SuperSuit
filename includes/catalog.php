@@ -1,7 +1,9 @@
 <?php
-$products_result = $pdo->prepare("SELECT * FROM product WHERE is_active = 1  ORDER BY (availability = 0), created_at DESC;");
-$products_result->execute();
-$products = $products_result->fetchAll(PDO::FETCH_ASSOC);
+
+$pdo = new Database();
+
+$products_result = $pdo->query("SELECT * FROM product WHERE is_active = 1  ORDER BY (availability = 0), created_at DESC;", []);
+$products = $products_result->fetchAll();
 ?>
 
 <section class="catalog" id="catalog">

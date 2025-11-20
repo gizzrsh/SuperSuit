@@ -1,4 +1,4 @@
-<?php include('includes/database.php'); ?>
+<?php require_once('./config/database.php') ?>
 
 <?php include('includes/header.php') ?>
 
@@ -16,5 +16,8 @@
 </section>
 
 <?php include('includes/catalog.php') ?>
+
+<!-- Подключение popup -->
+<?php include('includes/popup.php') ?>
 
 <?php include('includes/footer.php') ?>

@@ -1,16 +1,17 @@
 <!-- Подключение database -->
-<?php require_once __DIR__ . '/includes/database.php'; ?>
+<?php require_once __DIR__ . '/config/database.php'; ?>
 
 <?php
 $id = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
+
+$pdo = new Database();
 
 if (!$id) {
     http_response_code(400);
     exit('Invalid ID');
 }
 
-$product_result = $pdo->prepare("SELECT * FROM product WHERE id = :id");
-$product_result->execute(['id' => $id]);
+$product_result = $pdo->query("SELECT * FROM product WHERE id = :id", ['id' => $id]);
 $product = $product_result->fetch(PDO::FETCH_ASSOC);
 
 if (!$product) {
@@ -18,8 +19,7 @@ if (!$product) {
     exit('404 Page Not Found');
 }
 
-$images_result = $pdo->prepare("SELECT * FROM product_images WHERE product_id = :product_id ORDER BY sort_order");
-$images_result->execute(['product_id' => $product['id']]);
+$images_result = $pdo->query("SELECT * FROM product_images WHERE product_id = :product_id ORDER BY sort_order", ['product_id' => $product['id']]);
 $images = $images_result->fetchAll();
 ?>
 
@@ -60,7 +60,7 @@ $images = $images_result->fetchAll();
             </div>
             <div class="product__characteristics">
                 <h1 class="product__name"><?= htmlspecialchars($product['name'], ENT_QUOTES, 'UTF-8'); ?></h1>
-                <p class="product__sku">SKU-000<?= htmlspecialchars($product['sku'], ENT_QUOTES, 'UTF-8'); ?></p>
+                <p class="product__sku"><?= htmlspecialchars($product['sku'], ENT_QUOTES, 'UTF-8'); ?></p>
                 <h3 class="product__price"><?= htmlspecialchars($product['price'], ENT_QUOTES, 'UTF-8'); ?>₽/сутки.</h3>
                 <h4>Комплектация:</h4>
                 <p class="product__equipment"><?= htmlspecialchars($product['equipment'], ENT_QUOTES, 'UTF-8'); ?></p>

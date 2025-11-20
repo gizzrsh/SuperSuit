@@ -1,22 +1,72 @@
-const btnOpenPopup = document.querySelector('.product__btn');
-const btnClosePopup = document.querySelector('.popup__close');
-const popup = document.getElementById('popup');
+const btnOpenRentPopup = document.querySelector('.product__btn');
+const btnOpenAuthPopup = document.querySelector('.header__btn');
+const btnOpenRegisterPopup = document.querySelector('.register-link');
+const btnCloseRentPopup = document.querySelector('.popup__close-rent');
+const btnCloseAuthPopup = document.querySelector('.popup__close-auth');
+const popupRent = document.getElementById('popup-rent');
+const popupAuth = document.getElementById('popup-auth');
 
-if (btnOpenPopup && btnClosePopup) {
-  btnOpenPopup.addEventListener('click', () => {
-    popup.style.display = 'flex';
-    window.scroll({
-        top: 0,
-        behavior: 'smooth'
-    });
-
+if (btnOpenRentPopup && btnCloseRentPopup) {
+  btnOpenRentPopup.addEventListener('click', () => {
+    popupRent.style.display = 'flex';
   });
-  btnClosePopup.addEventListener('click', () => {
-    popup.style.display = 'none';
-    document.body.style.overflow = "";
+  btnCloseRentPopup.addEventListener('click', () => {
+    popupRent.style.display = 'none';
   });
 }
 
+if (btnOpenAuthPopup && btnCloseAuthPopup) {
+  btnOpenAuthPopup.addEventListener('click', () => {
+    popupAuth.style.display = 'flex';
+  });
+  btnCloseAuthPopup.addEventListener('click', () => {
+    popupAuth.style.display = 'none';
+  });
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// swiper js
 const swiper = new Swiper(".mySwiper", {
   loop: true,
   breakpoint: {

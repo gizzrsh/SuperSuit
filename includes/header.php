@@ -16,6 +16,7 @@
         <div class="container header__container">
             <a href="index.php" class="header__logo">Super<span>Suit</span></a>
             <a href="tel:+375293512740" class="header__phone">+375 29 351-27-40</a>
+            <button type="button" class="header__btn">Авторизация</button>
         </div>
     </header>
     <main class="main">
