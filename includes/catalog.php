@@ -2,7 +2,7 @@
 
 $pdo = new Database();
 
-$products_result = $pdo->query("SELECT * FROM product WHERE is_active = 1  ORDER BY (availability = 0), created_at DESC;", []);
+$products_result = $pdo->query("SELECT * FROM product WHERE is_active = 1  ORDER BY (availability = 0), created_at DESC;");
 $products = $products_result->fetchAll();
 ?>
 
@@ -15,7 +15,7 @@ $products = $products_result->fetchAll();
                     <img src="./images/<?= htmlspecialchars($product['image_url'], ENT_QUOTES, 'UTF-8'); ?>" alt="<?= htmlspecialchars($product['name'], ENT_QUOTES, 'UTF-8'); ?>" class="catalog__product-image">
                     <h4 class="catalog__product-name"><?= htmlspecialchars($product['name'], ENT_QUOTES, 'UTF-8'); ?></h4>
                     <p  class="catalog__product-size">Размер: <?= htmlspecialchars($product['size'], ENT_QUOTES, 'UTF-8'); ?></p>
-                    <h5 class="catalog__product-price"><?= htmlspecialchars($product['price'], ENT_QUOTES, 'UTF-8'); ?>₽/день.</h5>
+                    <h3 class="catalog__product-price"><?= htmlspecialchars($product['price'], ENT_QUOTES, 'UTF-8'); ?>₽/сутки.</h3>
                     <a  class="catalog__product-link btn" href="product.php?id=<?= htmlspecialchars($product['id'], ENT_QUOTES, 'UTF-8'); ?>">Быстрый просмотр</a>
                     <?php if ((int)$product['availability'] === 0): ?>
                         <p  class="catalog__product-stock" style="color: red">Нет в наличии</p>
