@@ -1,5 +1,14 @@
 <?php require_once('./config/database.php') ?>
 
+<?php
+// Запускаем сессию
+session_start();
+
+// Очищаем сессию после показа ошибок
+unset($_SESSION['auth_errors']);
+unset($_SESSION['old_auth']);
+?>
+
 <?php include('includes/header.php') ?>
 
 <section class="hero">

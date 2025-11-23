@@ -14,9 +14,18 @@
 <body>
     <header class="header">
         <div class="container header__container">
-            <a href="index.php" class="header__logo">Super<span>Suit</span></a>
-            <a href="tel:+375293512740" class="header__phone">+375 29 351-27-40</a>
-            <button type="button" class="header__btn">Авторизация</button>
+            <div class="header__main">
+                <a href="index.php" class="header__logo">Super<span>Suit</span></a>
+                <a href="tel:+375293512740" class="header__phone">+375 29 351-27-40</a>
+            </div>
+            <div class="header__auth">
+                <button type="button" class="login-link header_btn"><img src="./images/login-link.png" alt="login"></button>
+                <?php if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true): ?>
+                    <form action="./handlers/logout.php">
+                        <button type="submit" class="login-link header_btn"><img src="./images/logout-link.png" alt="logout"></button>
+                    </form>
+                <?php endif; ?>
+            </div>
         </div>
     </header>
     <main class="main">

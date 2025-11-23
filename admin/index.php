@@ -1,6 +1,13 @@
 <?php include('../config/database.php') ?>
 
 <?php
+session_start();
+
+if (!($_SESSION['logged_in'] === true and $_SESSION['user_role'] === 'admin')) {
+    header('Location: ../index.php');
+    exit;
+}
+
 $pdo = new Database();
 
 $products_result = $pdo->query("SELECT * FROM product ORDER BY created_at DESC LIMIT 50 OFFSET 0;", []);

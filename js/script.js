@@ -1,10 +1,12 @@
-const btnOpenRentPopup = document.querySelector('.product__btn');
-const btnOpenAuthPopup = document.querySelector('.header__btn');
+const btnOpenRentPopup     = document.querySelector('.product__btn');
+const btnOpenAuthPopup     = document.querySelector('.login-link');
 const btnOpenRegisterPopup = document.querySelector('.register-link');
 const btnCloseRentPopup = document.querySelector('.popup__close-rent');
 const btnCloseAuthPopup = document.querySelector('.popup__close-auth');
-const popupRent = document.getElementById('popup-rent');
-const popupAuth = document.getElementById('popup-auth');
+const btnCloseRegisterPopup = document.querySelector('.popup__close-register');
+const popupRent     = document.getElementById('popup-rent');
+const popupAuth     = document.getElementById('popup-auth');
+const popupRegister = document.getElementById('popup-register');
 
 if (btnOpenRentPopup && btnCloseRentPopup) {
   btnOpenRentPopup.addEventListener('click', () => {
@@ -18,14 +20,59 @@ if (btnOpenRentPopup && btnCloseRentPopup) {
 if (btnOpenAuthPopup && btnCloseAuthPopup) {
   btnOpenAuthPopup.addEventListener('click', () => {
     popupAuth.style.display = 'flex';
+    popupRegister.style.display = 'none';
   });
   btnCloseAuthPopup.addEventListener('click', () => {
     popupAuth.style.display = 'none';
   });
 }
 
+if (btnOpenRegisterPopup && btnCloseRegisterPopup) {
+  btnOpenRegisterPopup.addEventListener('click', () => {
+    popupRegister.style.display = 'flex';
+    popupAuth.style.display = 'none';
+  });
+  btnCloseRegisterPopup.addEventListener('click', () => {
+    popupRegister.style.display = 'none';
+  });
+}
 
+// Обработчики для переключения между popup
+const switchToRegister = document.querySelectorAll('.switch-to-register');
+const switchToAuth = document.querySelectorAll('.switch-to-auth');
 
+// Переключение на регистрацию
+switchToRegister.forEach(button => {
+    button.addEventListener('click', (e) => {
+        e.preventDefault();
+        if (popupAuth) popupAuth.style.display = 'none';
+        if (popupRegister) popupRegister.style.display = 'flex';
+    });
+});
+
+// Переключение на авторизацию
+switchToAuth.forEach(button => {
+    button.addEventListener('click', (e) => {
+        e.preventDefault();
+        if (popupRegister) popupRegister.style.display = 'none';
+        if (popupAuth) popupAuth.style.display = 'flex';
+    });
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+    if (window.location.hash === '#popup-register') {
+        if (popupRegister) {
+            popupRegister.style.display = 'flex';
+        }
+    }
+});
+document.addEventListener('DOMContentLoaded', function() {
+    if (window.location.hash === '#popup-auth') {
+        if (popupAuth) {
+            popupAuth.style.display = 'flex';
+        }
+    }
+});
 
 
 

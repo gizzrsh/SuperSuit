@@ -1,8 +1,17 @@
+<!-- Подключение базы данных -->
 <?php require_once('../config/database.php') ?>
+<!-- Подключение помощника -->
 <?php require_once('../includes/helpers.php') ?>
 
 
 <?php
+session_start();
+
+if (!($_SESSION['logged_in'] === true and $_SESSION['user_role'] === 'admin')) {
+    header('Location: ../index.php');
+    exit;
+}
+
 $id = isset($_GET['id']) ? filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT): false;
 
 $pdo = new Database();

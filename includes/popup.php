@@ -1,22 +1,3 @@
-<?php
-
-// $email  = $_POST['email'];
-// $pass   = $_POST['passowrd'];
-// $errors = [];
-
-// if ($_SERVER('REQUEST_METHOD') === 'POST') {
-//     if (empty($email)) {
-//         $errors[] = 'Поле email должно быть заполнено';
-//     }
-
-//     if (empty($pass)) {
-//         $errors[] = 'Поле пароль должно быть заполнено';
-//     }
-// }
-
-?>
-
-
 <div class="product__popup popup" id="popup-rent">
     <form action="popup.php" method="post" class="popup__form-rent">
         <h4 class="popup__title">Аренда костюма “<?= htmlspecialchars($product['name'], ENT_QUOTES, 'UTF-8') ?>”</h4>
@@ -43,23 +24,26 @@
 </div>
 
 <div class="auth__popup popup" id="popup-auth" >
-    <form action="popup.php" method="post" class="popup__form-auth">
+    <form action="./handlers/auth.php" method="post" class="popup__form-auth">
         <h4 class="popup__title">Авторизация</h4>
         <input type="email" class="popup__input" name="email" placeholder="Email" required>
         <input type="password" class="popup__input" name="password" placeholder="Пароль" required>
         <button type="submit" class="popup__btn btn">Войти</button>
 
+        <div class="popup__actions">
+            <button type="button" class="popup__action switch-to-register">Нет аккаунта? Создать</button>
+        </div>
+
         <button type="button" class="popup__close-auth"><img src="images/cross.svg" alt=""></button>
     </form>
 </div>
 
-<!-- <div class="register__popup popup" id="popup-register" style="display: none;">
-    <form action="popup.php" method="post" class="popup__form">
+<div class="register__popup popup" id="popup-register">
+    <form action="./handlers/register.php" method="post" class="popup__form-register">
         <h4 class="popup__title">Регистрация</h4>
         
         <input type="text" class="popup__input" name="name" placeholder="Имя" required>
         <input type="email" class="popup__input" name="email" placeholder="Email" required>
-        <input type="tel" class="popup__input" name="phone" placeholder="Телефон" required>
         <input type="password" class="popup__input" name="password" placeholder="Пароль" required>
         <input type="password" class="popup__input" name="password_confirm" placeholder="Повторите пароль" required>
         
@@ -70,9 +54,14 @@
 
         <button type="submit" class="popup__btn btn">Зарегистрироваться</button>
         
-        <div class="popup__links">
-            <a href="#" class="popup__link switch-popup" data-popup="auth">Уже есть аккаунт? Войти</a>
+        <div class="popup__actions">
+            <button type="button" class="popup__action switch-to-auth">Уже есть аккаунт? Войти</button>
         </div>
+
+        <button type="button" class="popup__close-register"><img src="images/cross.svg" alt=""></button>
     </form>
-    <button type="button" class="popup__close"><img src="images/cross.svg" alt=""></button>
+</div>
+
+<!-- <div class="success__popup">
+    <p class="success__popup-text">Вы зарегистрированы</p>
 </div> -->
