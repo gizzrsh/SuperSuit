@@ -1,4 +1,5 @@
 <?php
+
 // Подключение базы данных
 require_once('../config/database.php');
 // Подключение помощника
@@ -24,7 +25,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if (empty($email)) {
         $errors['email'] = 'Поле Email не может быть пустым';
-    } elseif(!validateEmail($email)) {
+    } elseif (!validateEmail($email)) {
         $errors['email'] = 'Email не валидный';
     }
 
@@ -56,13 +57,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 header('Location: ../index.php?registration=success#popup-auth');
                 exit;
             }
-        } catch (PDOException $e){
+        } catch (PDOException $e) {
             $errors['database'] = 'Ошибка при регистрации. Попробуйте позже.';
         }
     }
 
     if (!empty($errors)) {
-        header('Location: ../index.php#popup-register');
+        header('Location: ../#popup-register');
         exit;
     }
 }

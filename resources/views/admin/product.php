@@ -8,7 +8,7 @@
 session_start();
 
 if (!($_SESSION['logged_in'] === true and $_SESSION['user_role'] === 'admin')) {
-    header('Location: ../index.php');
+    header('Location: ../');
     exit;
 }
 

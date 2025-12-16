@@ -6,7 +6,6 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: "Montserrat Alternates", sans-serif;
 }
 
 html {
@@ -18,16 +17,18 @@ html, body {
     padding: 0;
 }
 body {
+    scroll-behavior: smooth;
     display: flex;
     flex-direction: column;
     min-height: 100vh;
 
     background: center / contain url('../images/body-bg.svg'), #EFF5FF;
-    font-family: "Montserrat Alternates", sans-serif;
+    font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
 }
 
 .main {
     flex: 1 1 auto;
+    scroll-behavior: smooth;
 }
 
 .container {
@@ -57,20 +58,24 @@ body {
 
 /* header */
 .header {
+    /* position: fixed; */
+    width: 100%;
     background-color: #fff;
-    padding: 10px 0px;
+    padding: 10px;
+
 }
 .header__container {
     display: flex;
-    gap: 30px;
+    align-items: center;
+    justify-content: space-between;
 }
 .header__main {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    font-size: 32px;
-    font-weight: 700;
+    justify-content: start;
+    gap: 20px;
     flex: 90%;
+    font-weight: 700;
 }
 .header__auth {
     display: flex;
@@ -78,49 +83,55 @@ body {
     gap: 15px;
 }
 .header__logo {
-    color: #FFCA33;
+    color: #000;
+    font-size: 32px;
     text-decoration: none;
 }
-.header__logo span {
-    color: #041A3F;
-}
-.header__phone {
-    color: #000000;
-    text-decoration: none;
-}
+
+/* login btn */
 .login-link {
     cursor: pointer;
     border: none;
     background: none;
 }
 .login-link img {
-    width: 28px;
-    height: 28px;
+    width: 100%;
+    max-width: 28px;
+    height: auto;
 }
-
+/* logout btn */
 .logout-link {
     cursor: pointer;
     border: none;
     background: none;
 }
 .logout-link img {
+    width: 100%;
+    max-width: 28px;
+    height: auto;
+}
+/* cabinet btn */
+.cabinet-link {
+    cursor: pointer;
+    border: none;
+    background: none;
+}
+.cabinet-link img {
     width: 28px;
     height: 28px;
 }
-
 
 /* hero */
 .hero {
     background-color: #fff;
     border-radius: 0px 0px 0px 300px;
-    padding: 70px 0px 120px 0px;
 }
 .hero__content {
+    height: 100vh;
     display: flex;
     align-items: center;
     justify-content: space-between;
 }
-
 .hero__text {
     display: flex;
     flex-direction: column;
@@ -138,23 +149,16 @@ body {
     font-size: 18px;
     font-weight: 700;
     scroll-behavior: smooth;
-
-}
-.hero__image img {
-    width: 100%;
-    height: 100%;
-    max-width: 514px;
-    min-height: 481px;
 }
 
 /* catalog */
 .catalog {
-    padding: 128px 0px;
+    padding: 48px 0px;
 }
 .catalog__title {
     font-size: 42px;
     font-weight: 700;
-    margin-bottom: 64px;
+    margin-bottom: 32px;
     text-align: center;
 }
 .catalog__products {
@@ -166,7 +170,7 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    min-height: 100%;
+    /* min-height: 100%; */
     border-radius: 20px;
     background-color: #fff;
 
@@ -175,6 +179,7 @@ body {
 .catalog__product-image {
     width: 100%;
     height: 100%;
+    max-width: 210px;
     object-fit: cover;
     
     margin-bottom: 32px;
@@ -476,14 +481,23 @@ body {
     line-height: 160%;
     margin-bottom: 32px;
 }
+
+.popup__label {
+    margin-bottom: 12px;
+}
+.popup__input-error {
+    color: red;
+    font-size: 14px;
+    text-align: left;
+    margin-top: 8px;
+}
 .popup__input {
+    width: 100%;
     border-radius: 3px;
     border: 1px solid #E5E5E5;
     background: #fff;
     font-size: 16px;
-    font-family: "Montserrat Alternates", sans-serif;
-    padding: 16px;
-    margin-bottom: 16px;
+    padding: 16px
 }
 .popup__checkbox {
     display: flex;
@@ -533,7 +547,7 @@ body {
     border: none;
     background: none;
     cursor: pointer;
-    color: blue;
+    color: #041A3F;
 }
 /* auth popup */
 .auth__popup {
@@ -631,6 +645,19 @@ body {
         opacity: 0;
         transform: translateX(100%);
     }
+}
+
+
+/* cabinet */
+.cabinet-users {
+    display: flex;
+    flex-direction: column;
+    row-gap: 15px;
+}
+.cabinet-user {
+    display: flex;
+    align-items: center;
+    gap: 30px;
 }
 
 /* footer */

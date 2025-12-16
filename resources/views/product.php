@@ -1,8 +1,4 @@
-<!-- Подключение database -->
-<?php require_once __DIR__ . '/config/database.php'; ?>
-
 <?php
-$id = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
 
 $pdo = new Database();
 
@@ -24,13 +20,13 @@ $images = $images_result->fetchAll();
 ?>
 
 <!-- Подключение header -->
-<?php include('includes/header.php') ?>
+<?php include APP_PATH . '/resources/views/components/header.php'; ?>
 
 <div class="container">
     <section class="product">
         <div class="product__breadcrumbs breadcrumbs">
             <ul class="breadcrumbs__list">
-                <li class="breadcrumbs__item"><a href="index.php" class="breadcrumbs__link">Главная</a></li>
+                <li class="breadcrumbs__item"><a href="/" class="breadcrumbs__link">Главная</a></li>
                 <span>/</span>
                 <li class="breadcrumbs__item"><a href="product.php?id=<?= htmlspecialchars($product['id'], ENT_QUOTES, 'UTF-8'); ?>" class="breadcrumbs__link" ><?= htmlspecialchars($product['name'], ENT_QUOTES, 'UTF-8'); ?></a></li>
             </ul>
@@ -41,7 +37,7 @@ $images = $images_result->fetchAll();
                     <div class="swiper-wrapper">
                         <?php foreach ($images as $image): ?>
                         <div class="swiper-slide">
-                            <img src="images/<?= htmlspecialchars($image['image_url'], ENT_QUOTES, 'UTF-8'); ?>" alt="<?= htmlspecialchars($product['name'], ENT_QUOTES, 'UTF-8'); ?>">
+                            <img src="<?php APP_PATH ?>/resources/images/<?= htmlspecialchars($image['image_url'], ENT_QUOTES, 'UTF-8'); ?>" alt="<?= htmlspecialchars($product['name'], ENT_QUOTES, 'UTF-8'); ?>">
                         </div>
                         <?php endforeach; ?>
                     </div>
@@ -50,7 +46,7 @@ $images = $images_result->fetchAll();
                     <div class="swiper-wrapper">
                         <?php foreach ($images as $image): ?>
                         <div class="swiper-slide"> 
-                            <img src="images/<?= htmlspecialchars($image['image_url'], ENT_QUOTES, 'UTF-8'); ?>" alt="<?= htmlspecialchars($product['name'], ENT_QUOTES, 'UTF-8'); ?>">
+                            <img src="<?php APP_PATH ?>/resources/images/<?= htmlspecialchars($image['image_url'], ENT_QUOTES, 'UTF-8'); ?>" alt="<?= htmlspecialchars($product['name'], ENT_QUOTES, 'UTF-8'); ?>">
                         </div>
                         <?php endforeach; ?>
                     </div>
@@ -76,12 +72,12 @@ $images = $images_result->fetchAll();
 
             <!-- swiper modal - fullscreen -->
             <div class="product__swiper-fullscreen modal">
-                <button type="button" class="modal__close"><img src="images/cross.svg" alt=""></button>
+                <button type="button" class="modal__close"><img src="./resources/images/cross.svg" alt=""></button>
                 <div class="swiper swiperModal" thumbsSlider="">
                     <div class="swiper-wrapper">
                         <?php foreach ($images as $image): ?>
                         <div class="swiper-slide">
-                            <img src="images/<?= htmlspecialchars($image['image_url'], ENT_QUOTES, 'UTF-8'); ?>" alt="<?= htmlspecialchars($product['name'], ENT_QUOTES, 'UTF-8'); ?>">
+                            <img src="./resources/images/<?= htmlspecialchars($image['image_url'], ENT_QUOTES, 'UTF-8'); ?>" alt="<?= htmlspecialchars($product['name'], ENT_QUOTES, 'UTF-8'); ?>">
                         </div>
                         <?php endforeach; ?>
                     </div>
@@ -90,7 +86,7 @@ $images = $images_result->fetchAll();
                     <div class="swiper-wrapper">
                         <?php foreach ($images as $image): ?>
                         <div class="swiper-slide"> 
-                            <img src="images/<?= htmlspecialchars($image['image_url'], ENT_QUOTES, 'UTF-8'); ?>" alt="<?= htmlspecialchars($product['name'], ENT_QUOTES, 'UTF-8'); ?>">
+                            <img src="./resources/images/<?= htmlspecialchars($image['image_url'], ENT_QUOTES, 'UTF-8'); ?>" alt="<?= htmlspecialchars($product['name'], ENT_QUOTES, 'UTF-8'); ?>">
                         </div>
                         <?php endforeach; ?>
                     </div>
@@ -105,6 +101,6 @@ $images = $images_result->fetchAll();
 </div>
 
 <!-- Подключение popup -->
-<?php include('includes/popup.php') ?>
+<?php include('./resources/views/components/popup.php') ?>
 
-<?php include('includes/footer.php') ?>
+<?php include('./resources/views/components/footer.php') ?>

@@ -1,12 +1,13 @@
 <?php
+
 session_start();
 
 // Уничтожаем все данные сессии
-$_SESSION = array();
+$_SESSION = [];
 
 // Уничтожаем сессию
 session_destroy();
 
 // Редирект на главную
-header('Location: ../index.php');
+header('Location: /');
 exit;

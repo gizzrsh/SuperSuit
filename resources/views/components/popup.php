@@ -20,21 +20,31 @@
 
         <button type="submit" class="popup__btn btn">Оставить заявку</button>
     </form>
-    <button type="button" class="popup__close-rent"><img src="images/cross.svg" alt=""></button>
+    <button type="button" class="popup__close-rent"><img src="./resources/images/cross.svg" alt=""></button>
 </div>
 
 <div class="auth__popup popup" id="popup-auth" >
-    <form action="./handlers/auth.php" method="post" class="popup__form-auth">
+    <form action="/handlers/auth.php" method="POST" class="popup__form-auth">
         <h4 class="popup__title">Авторизация</h4>
-        <input type="email" class="popup__input" name="email" placeholder="Email" required>
-        <input type="password" class="popup__input" name="password" placeholder="Пароль" required>
+        <label for="email" class="popup__label">
+            <input type="email" class="popup__input" name="email" placeholder="Email" required>
+            <?php if (!empty($_SESSION['errors'])): ?>
+            <p class="popup__input-error">
+                <?= $_SESSION['errors']['auth'] ?>
+            </p>
+            <?php endif ?>
+        </label>
+        <label for="password" class="popup__label">
+            <input type="password" class="popup__input" name="password" placeholder="Пароль" required>
+        </label>
+
         <button type="submit" class="popup__btn btn">Войти</button>
 
         <div class="popup__actions">
             <button type="button" class="popup__action switch-to-register">Нет аккаунта? Создать</button>
         </div>
 
-        <button type="button" class="popup__close-auth"><img src="images/cross.svg" alt=""></button>
+        <button type="button" class="popup__close-auth"><img src="./resources/images/cross.svg" alt=""></button>
     </form>
 </div>
 
@@ -61,7 +71,3 @@
         <button type="button" class="popup__close-register"><img src="images/cross.svg" alt=""></button>
     </form>
 </div>
-
-<!-- <div class="success__popup">
-    <p class="success__popup-text">Вы зарегистрированы</p>
-</div> -->

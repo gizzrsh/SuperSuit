@@ -5,6 +5,6 @@
             <a href="tel:+375293512740" class="footer__phone">+375 29 351-27-40</a>
         </div>
     </footer>
-    <script type="module" src="js/script.js"></script>
+    <script type="module" src="resources/js/script.js"></script>
 </body>
 </html>

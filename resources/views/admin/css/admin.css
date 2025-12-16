@@ -106,11 +106,13 @@ button {
     align-items: center;
     justify-content: space-between;
     font-size: 20px;
+    padding-bottom: 30px;
+    border-bottom: 1px solid #041A3F;
 }
 .dashboards__item-image {
     width: 300px;
     height: 450px;
-    border-radius: 30px;
+    border-radius: 4px;
     object-fit: cover;
 }
 .dashboards__item-text {
@@ -124,7 +126,10 @@ button {
     flex-direction: column;
     gap: 15px;
 
-    font-size: 16px;
+    font-size: 18px;
+}
+.dashboards__item-price {
+    font-size: 18px;
 }
 .dashboards__item-actions {
     display: flex;
@@ -170,17 +175,30 @@ button {
     width: 100%;
     height: 100%;
     border: none;
-    border-radius: 9px;
+    border-radius: 4px;
     box-shadow: 0px 1px 3px #000000;    
+    transition: all .1s ease-in;
     padding: 9px;
+}
+.product__form-item input:focus {
+    border: none;
+    outline: 2px solid #000000;
 }
 .product__form-item textarea {
     width: 100%;
     height: 100%;
     max-width: 600px;
     min-height: 150px;
+    border-radius: 4px;
+    box-shadow: 0px 1px 3px #000000;
+    transition: all .1s ease-in;
     padding: 9px;
 }
+.product__form-item textarea:focus {
+    border: none;
+    outline: 2px solid #000000;
+}
+
 .product__form-btn {
     margin-top: 30px;
     border: none;

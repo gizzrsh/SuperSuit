@@ -12,11 +12,11 @@ $products = $products_result->fetchAll();
         <ul class="catalog__products">
             <?php foreach ($products as $product): ?>
                 <li class="catalog__product">
-                    <img src="./images/<?= htmlspecialchars($product['image_url'], ENT_QUOTES, 'UTF-8'); ?>" alt="<?= htmlspecialchars($product['name'], ENT_QUOTES, 'UTF-8'); ?>" class="catalog__product-image">
+                    <img src="/resources/images/<?= htmlspecialchars($product['image_url'], ENT_QUOTES, 'UTF-8'); ?>" alt="<?= htmlspecialchars($product['name'], ENT_QUOTES, 'UTF-8'); ?>" class="catalog__product-image">
                     <h4 class="catalog__product-name"><?= htmlspecialchars($product['name'], ENT_QUOTES, 'UTF-8'); ?></h4>
                     <p  class="catalog__product-size">Размер: <?= htmlspecialchars($product['size'], ENT_QUOTES, 'UTF-8'); ?></p>
                     <h3 class="catalog__product-price"><?= htmlspecialchars($product['price'], ENT_QUOTES, 'UTF-8'); ?>₽/сутки.</h3>
-                    <a  class="catalog__product-link btn" href="product.php?id=<?= htmlspecialchars($product['id'], ENT_QUOTES, 'UTF-8'); ?>">Быстрый просмотр</a>
+                    <a  class="catalog__product-link btn" href="product/<?= htmlspecialchars($product['id'], ENT_QUOTES, 'UTF-8'); ?>">Быстрый просмотр</a>
                     <?php if ((int)$product['availability'] === 0): ?>
                         <p  class="catalog__product-stock" style="color: red">Нет в наличии</p>
                     <?php else: ?>

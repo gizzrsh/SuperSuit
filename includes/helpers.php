@@ -28,3 +28,22 @@ function validateEmail(string $email) {
 
 }
 
+function dd($value) {
+    echo "<pre>";
+        var_dump($value);
+    echo "</pre>";
+    exit;
+}
+
+function view($uri, $params = []) {
+    extract($params, EXTR_SKIP); // EXTR_SKIP - не перезаписывает существующие переменные
+    
+    $viewPath = APP_PATH . "/resources/views/{$uri}";
+    
+    if (!file_exists($viewPath)) {
+        throw new Exception("View [{$uri}] not found at: {$viewPath}");
+    }
+    
+    include_once $viewPath;
+}
+

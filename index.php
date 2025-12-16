@@ -1,32 +1,14 @@
-<?php require_once('./config/database.php') ?>
-
 <?php
-// Запускаем сессию
 session_start();
+define('APP_PATH', __DIR__);
 
-// Очищаем сессию после показа ошибок
-unset($_SESSION['auth_errors']);
-unset($_SESSION['old_auth']);
+include(APP_PATH . '/includes/helpers.php');
+include(APP_PATH . '/config/database.php');
+
+$uri = trim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), '/');
+$parts = explode('/', $uri);
+
+require_once APP_PATH . '/routes/web.php';
+
+
 ?>
-
-<?php include('includes/header.php') ?>
-
-<section class="hero">
-    <div class="hero-bg"></div>
-    <div class="container hero__container">
-        <div class="hero__content">
-            <div class="hero__text">
-                <h1 class="hero__title"><span>Аренда костюмов</span> высшего качества <br> по доступной цене</h1>
-                <a href="#catalog" class="hero__link btn">Подобрать костюм</a>
-            </div>
-            <div class="hero__image"><img src="images/hero__image.png" alt="hero image"></div>
-        </div>
-    </div>
-</section>
-
-<?php include('includes/catalog.php') ?>
-
-<!-- Подключение popup -->
-<?php include('includes/popup.php') ?>
-
-<?php include('includes/footer.php') ?>

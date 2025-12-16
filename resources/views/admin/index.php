@@ -1,10 +1,7 @@
-<?php include('../config/database.php') ?>
-
 <?php
-session_start();
 
 if (!($_SESSION['logged_in'] === true and $_SESSION['user_role'] === 'admin')) {
-    header('Location: ../index.php');
+    header('Location: /');
     exit;
 }
 
@@ -14,16 +11,16 @@ $products_result = $pdo->query("SELECT * FROM product ORDER BY created_at DESC L
 $products = $products_result->fetchAll();
 ?>
 
-<?php include('./includes/header.php') ?>
+<?php include('includes/header.php') ?>
 
 <section class="dashboards">
     <div class="dashboards__container container">
-        <h1 class="dashboards__title">Admin Panel</h1>
+        <h1 class="dashboards__title">Админ панель</h1>
 
         <ul class="dashboards__list">
             <?php foreach ($products as $product): ?>
                 <li class="dashboards__item">
-                    <img class="dashboards__item-image" src="../images/<?= htmlspecialchars($product['image_url'], ENT_QUOTES, 'UTF-8'); ?>" alt="<?= htmlspecialchars($product['name'], ENT_QUOTES, 'UTF-8'); ?>">
+                    <img class="dashboards__item-image" src="/resources/images/<?= htmlspecialchars($product['image_url'], ENT_QUOTES, 'UTF-8'); ?>" alt="<?= htmlspecialchars($product['name'], ENT_QUOTES, 'UTF-8'); ?>">
                     <div class="dashboards__item-text">
                         <h4 class="dashboards__item-name"><?= htmlspecialchars($product['name'], ENT_QUOTES, 'UTF-8'); ?></h4>
                         <p class="dashboards__item-description"><?= mb_strimwidth(htmlspecialchars($product['description'], ENT_QUOTES, 'UTF-8'), 0, 180, '. . .') ?></p>
@@ -50,4 +47,4 @@ $products = $products_result->fetchAll();
     </div>
 </section>
 
-<?php include('./includes/footer.php') ?>
+<?php include('includes/footer.php') ?>
